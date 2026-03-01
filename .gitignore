@@ -1,0 +1,20 @@
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Flask/Python tooling cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+placement_portal.db
+*.db
+
+# OS/editor noise
+.DS_Store
+.vscode/

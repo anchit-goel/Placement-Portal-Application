@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}Company Registration{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h3 class="text-center mb-4">
+                    Company Registration
+                </h3>
+                <form method="POST" action="{{ url_for('auth.register_company') }}" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label">Company Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control" required minlength="2" maxlength="100" placeholder="Enter company name">
+                        <div class="invalid-feedback">Company name is required.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" name="email" class="form-control" required placeholder="Enter company email">
+                        <div class="invalid-feedback">Please enter a valid email.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password <span class="text-danger">*</span></label>
+                        <input type="password" name="password" class="form-control" required minlength="6" placeholder="Minimum 6 characters">
+                        <div class="invalid-feedback">Password must be at least 6 characters.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">HR Contact Name</label>
+                        <input type="text" name="hr_contact" class="form-control" maxlength="100" placeholder="Enter HR contact name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Industry</label>
+                        <input type="text" name="industry" class="form-control" maxlength="100" placeholder="e.g. IT, Finance, Healthcare">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Website</label>
+                        <input type="url" name="website" class="form-control" placeholder="https://yourcompany.com">
+                        <div class="invalid-feedback">Enter a valid URL starting with https://</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Company Description</label>
+                        <textarea name="description" class="form-control" rows="3" maxlength="500" placeholder="Brief description of your company"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">Register</button>
+                </form>
+                <div class="text-center mt-3">
+                    <small>Already registered? <a href="{{ url_for('auth.login') }}">Login here</a></small>
+                </div>
+                <div class="alert alert-info mt-3 mb-0">
+                    Your account will be reviewed by Admin before you can login.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+    var form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    }, false);
+})();
+</script>
+{% endblock %}

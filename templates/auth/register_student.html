@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}Student Registration{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h3 class="text-center mb-4">
+                    Student Registration
+                </h3>
+                <form method="POST" action="{{ url_for('auth.register_student') }}" enctype="multipart/form-data" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control" required minlength="2" maxlength="100" placeholder="Enter your full name">
+                        <div class="invalid-feedback">Please enter your full name.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" name="email" class="form-control" required placeholder="Enter your email">
+                        <div class="invalid-feedback">Please enter a valid email.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password <span class="text-danger">*</span></label>
+                        <input type="password" name="password" class="form-control" required minlength="6" placeholder="Minimum 6 characters">
+                        <div class="invalid-feedback">Password must be at least 6 characters.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" name="phone" class="form-control" maxlength="15" pattern="[0-9]{10,15}" placeholder="Enter phone number">
+                        <div class="invalid-feedback">Enter a valid phone number.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Branch</label>
+                            <input type="text" name="branch" class="form-control" maxlength="50" placeholder="e.g. CS, EC, ME">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">CGPA</label>
+                            <input type="number" name="cgpa" class="form-control" step="0.01" min="0" max="10" placeholder="e.g. 8.5">
+                            <div class="invalid-feedback">CGPA must be between 0 and 10.</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Graduation Year</label>
+                        <input type="number" name="graduation_year" class="form-control" min="2000" max="2035" placeholder="e.g. 2025">
+                        <div class="invalid-feedback">Enter a valid graduation year.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Skills</label>
+                        <input type="text" name="skills" class="form-control" placeholder="e.g. Python, SQL, Flask">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Resume (PDF only)</label>
+                        <input type="file" name="resume" class="form-control" accept=".pdf">
+                        <div class="invalid-feedback">Only PDF files are allowed.</div>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Register</button>
+                </form>
+                <div class="text-center mt-3">
+                    <small>Already registered? <a href="{{ url_for('auth.login') }}">Login here</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+    var form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    }, false);
+})();
+</script>
+{% endblock %}
