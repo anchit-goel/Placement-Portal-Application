@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Edit Drive{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{{ url_for('company.dashboard') }}" class="btn btn-outline-secondary btn-sm mb-3">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </a>
+    <div class="card p-4">
+        <h4 class="mb-4">Edit Placement Drive</h4>
+        <form method="POST" action="{{ url_for('company.edit_drive', drive_id=drive.id) }}">
+            <div class="mb-3">
+                <label class="form-label">Job Title</label>
+                <input type="text" name="job_title" class="form-control" value="{{ drive.job_title }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Job Description</label>
+                <textarea name="job_description" class="form-control" rows="4">{{ drive.job_description or '' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Eligibility Criteria</label>
+                <textarea name="eligibility" class="form-control" rows="2">{{ drive.eligibility or '' }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Required Skills</label>
+                <input type="text" name="required_skills" class="form-control" value="{{ drive.required_skills or '' }}">
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Experience Required</label>
+                    <input type="text" name="experience_required" class="form-control" value="{{ drive.experience_required or '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" name="location" class="form-control" value="{{ drive.location or '' }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Minimum Salary (LPA)</label>
+                    <input type="number" name="salary_min" class="form-control" value="{{ drive.salary_min or '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Maximum Salary (LPA)</label>
+                    <input type="number" name="salary_max" class="form-control" value="{{ drive.salary_max or '' }}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Application Deadline</label>
+                <input type="date" name="deadline" class="form-control" value="{{ drive.deadline.strftime('%Y-%m-%d') }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

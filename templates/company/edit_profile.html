@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Edit Company Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{{ url_for('company.dashboard') }}" class="btn btn-outline-secondary btn-sm mb-3">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </a>
+    <div class="card p-4">
+        <h4 class="mb-4">Edit Company Profile</h4>
+        <form method="POST" action="{{ url_for('company.edit_profile') }}">
+            <div class="mb-3">
+                <label class="form-label">HR Contact Name</label>
+                <input type="text" name="hr_contact" class="form-control" value="{{ current_user.hr_contact or '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Industry</label>
+                <input type="text" name="industry" class="form-control" value="{{ current_user.industry or '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Website</label>
+                <input type="url" name="website" class="form-control" value="{{ current_user.website or '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Company Description</label>
+                <textarea name="description" class="form-control" rows="4">{{ current_user.description or '' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Edit Company{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{{ url_for('admin.view_company', company_id=company.id) }}" class="btn btn-outline-secondary btn-sm mb-3">
+        <i class="bi bi-arrow-left"></i> Back to Company Profile
+    </a>
+
+    <div class="card p-4">
+        <h4 class="mb-4">Edit Company</h4>
+
+        <form method="POST" action="{{ url_for('admin.edit_company', company_id=company.id) }}">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Company Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" class="form-control" value="{{ company.name }}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" name="email" class="form-control" value="{{ company.email }}" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">HR Contact</label>
+                    <input type="text" name="hr_contact" class="form-control" value="{{ company.hr_contact or '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Industry</label>
+                    <input type="text" name="industry" class="form-control" value="{{ company.industry or '' }}">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Website</label>
+                <input type="url" name="website" class="form-control" value="{{ company.website or '' }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="3">{{ company.description or '' }}</textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Approval Status</label>
+                    <select name="approval_status" class="form-select" required>
+                        <option value="pending" {% if company.approval_status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if company.approval_status == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="rejected" {% if company.approval_status == 'rejected' %}selected{% endif %}>Rejected</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Account Status</label>
+                    <select name="status" class="form-select" required>
+                        <option value="active" {% if company.status == 'active' %}selected{% endif %}>Active</option>
+                        <option value="blacklisted" {% if company.status == 'blacklisted' %}selected{% endif %}>Blacklisted</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

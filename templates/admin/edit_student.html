@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Edit Student{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{{ url_for('admin.view_student', student_id=student.id) }}" class="btn btn-outline-secondary btn-sm mb-3">
+        <i class="bi bi-arrow-left"></i> Back to Student Profile
+    </a>
+
+    <div class="card p-4">
+        <h4 class="mb-4">Edit Student</h4>
+
+        <form method="POST" action="{{ url_for('admin.edit_student', student_id=student.id) }}">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" class="form-control" value="{{ student.name }}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" name="email" class="form-control" value="{{ student.email }}" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Phone</label>
+                    <input type="text" name="phone" class="form-control" value="{{ student.phone or '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Branch</label>
+                    <input type="text" name="branch" class="form-control" value="{{ student.branch or '' }}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">CGPA</label>
+                    <input type="number" step="0.01" min="0" max="10" name="cgpa" class="form-control" value="{{ student.cgpa if student.cgpa is not none else '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Graduation Year</label>
+                    <input type="number" min="2000" max="2035" name="graduation_year" class="form-control" value="{{ student.graduation_year if student.graduation_year is not none else '' }}">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Skills</label>
+                <textarea name="skills" class="form-control" rows="3">{{ student.skills or '' }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Account Status</label>
+                <select name="status" class="form-select" required>
+                    <option value="active" {% if student.status == 'active' %}selected{% endif %}>Active</option>
+                    <option value="blacklisted" {% if student.status == 'blacklisted' %}selected{% endif %}>Blacklisted</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

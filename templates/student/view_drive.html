@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}{{ drive.job_title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{{ url_for('student.drives') }}" class="btn btn-outline-secondary btn-sm mb-3">
+        <i class="bi bi-arrow-left"></i> Back to Drives
+    </a>
+
+    <div class="card p-4 mb-3">
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <h3>{{ drive.job_title }}</h3>
+                <h5 class="text-muted">{{ drive.company.name }}</h5>
+            </div>
+            {% if drive.status == 'closed' or drive.deadline < today %}
+                <span class="badge bg-danger fs-6">Closed</span>
+            {% elif already_applied %}
+                <span class="badge bg-success fs-6">Already Applied</span>
+            {% else %}
+                <span class="badge bg-primary fs-6">Open</span>
+            {% endif %}
+        </div>
+        <hr>
+
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <small class="text-muted">Location</small>
+                <div>{{ drive.location or '—' }}</div>
+            </div>
+            <div class="col-md-3">
+                <small class="text-muted">Salary</small>
+                <div>
+                    {% if drive.salary_min and drive.salary_max %}
+                        {{ drive.salary_min }}–{{ drive.salary_max }} LPA
+                    {% else %}—{% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <small class="text-muted">Experience</small>
+                <div>{{ drive.experience_required or '—' }}</div>
+            </div>
+            <div class="col-md-3">
+                <small class="text-muted">Deadline</small>
+                {% if drive.status == 'closed' or drive.deadline < today %}
+                    <div class="text-danger fw-bold">{{ drive.deadline.strftime('%d %b %Y') }} (Closed)</div>
+                {% else %}
+                    <div class="text-danger fw-bold">{{ drive.deadline.strftime('%d %b %Y') }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if drive.job_description %}
+        <h6>Job Description</h6>
+        <p>{{ drive.job_description }}</p>
+        {% endif %}
+
+        {% if drive.eligibility %}
+        <h6>Eligibility Criteria</h6>
+        <p>{{ drive.eligibility }}</p>
+        {% endif %}
+
+        {% if drive.required_skills %}
+        <h6>Required Skills</h6>
+        <p>{{ drive.required_skills }}</p>
+        {% endif %}
+
+        <hr>
+        {% if drive.status == 'closed' or drive.deadline < today %}
+            <div class="alert alert-danger mb-0">
+                <i class="bi bi-clock"></i> This drive is closed. The deadline has passed.
+            </div>
+        {% elif already_applied %}
+            <div class="alert alert-success mb-0">
+                <i class="bi bi-check-circle"></i> You have already applied for this drive.
+                Current status: <strong>{{ already_applied.status }}</strong>
+            </div>
+        {% else %}
+            <form method="POST" action="{{ url_for('student.apply', drive_id=drive.id) }}">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-send"></i> Apply Now
+                </button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

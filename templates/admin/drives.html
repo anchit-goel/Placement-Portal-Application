@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}Manage Drives{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar d-none d-md-block">
+            <div class="text-white text-center mb-4 mt-2">
+                <i class="bi bi-shield-fill fs-2"></i>
+                <div class="small mt-1">Admin Panel</div>
+            </div>
+            <a href="{{ url_for('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+            <a href="{{ url_for('admin.companies') }}"><i class="bi bi-building me-2"></i>Companies</a>
+            <a href="{{ url_for('admin.students') }}"><i class="bi bi-people me-2"></i>Students</a>
+            <a href="{{ url_for('admin.drives') }}" class="active"><i class="bi bi-briefcase me-2"></i>Drives</a>
+            <a href="{{ url_for('admin.applications') }}"><i class="bi bi-file-earmark-text me-2"></i>Applications</a>
+            <a href="{{ url_for('admin.placements') }}"><i class="bi bi-trophy me-2"></i>Placements</a>
+        </div>
+
+        <div class="col-md-10 main-content">
+            <h3 class="mb-4">Placement Drives</h3>
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Job Title</th>
+                                    <th>Company</th>
+                                    <th>Deadline</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for drive in drives %}
+                                <tr>
+                                    <td>{{ drive.id }}</td>
+                                    <td>{{ drive.job_title }}</td>
+                                    <td>{{ drive.company.name }}</td>
+                                    <td>{{ drive.deadline.strftime('%d %b %Y') }}</td>
+                                    <td>
+                                        {% if drive.status == 'pending' %}
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        {% elif drive.status == 'approved' %}
+                                            <span class="badge bg-success">Approved</span>
+                                        {% elif drive.status == 'rejected' %}
+                                            <span class="badge bg-danger">Rejected</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Closed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            {% if drive.status == 'pending' %}
+                                            <form method="POST" action="{{ url_for('admin.drive_action', drive_id=drive.id) }}">
+                                                <input type="hidden" name="action" value="approve">
+                                                <button class="btn btn-success btn-sm">Approve</button>
+                                            </form>
+                                            <form method="POST" action="{{ url_for('admin.drive_action', drive_id=drive.id) }}">
+                                                <input type="hidden" name="action" value="reject">
+                                                <button class="btn btn-danger btn-sm">Reject</button>
+                                            </form>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-3">No drives found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Browse Drives{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar d-none d-md-block">
+            <div class="text-white text-center mb-4 mt-2">
+                <i class="bi bi-person-circle fs-2"></i>
+                <div class="small mt-1">{{ current_user.name }}</div>
+            </div>
+            <a href="{{ url_for('student.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+            <a href="{{ url_for('student.drives') }}" class="active"><i class="bi bi-briefcase me-2"></i>Browse Drives</a>
+            <a href="{{ url_for('student.my_applications') }}"><i class="bi bi-file-earmark-text me-2"></i>My Applications</a>
+            <a href="{{ url_for('student.history') }}"><i class="bi bi-clock-history me-2"></i>Placement History</a>
+            <a href="{{ url_for('student.notifications') }}"><i class="bi bi-bell me-2"></i>Notifications</a>
+            <a href="{{ url_for('student.edit_profile') }}"><i class="bi bi-person-gear me-2"></i>Edit Profile</a>
+        </div>
+
+        <div class="col-md-10 main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Browse Placement Drives</h3>
+                <form method="GET" class="d-flex gap-2">
+                    <input type="text" name="search" class="form-control" placeholder="Search by title, skills or location" value="{{ search }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    {% if search %}
+                    <a href="{{ url_for('student.drives') }}" class="btn btn-outline-secondary">Clear</a>
+                    {% endif %}
+                </form>
+            </div>
+
+            <div class="row g-3">
+                {% for drive in drives %}
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h5 class="card-title mb-1">{{ drive.job_title }}</h5>
+                                {% if drive.id in applied_drive_ids %}
+                                    <span class="badge bg-success">Applied</span>
+                                {% endif %}
+                            </div>
+                            <h6 class="text-muted mb-2">{{ drive.company.name }}</h6>
+                            <p class="card-text small text-muted mb-2">
+                                {% if drive.location %}<i class="bi bi-geo-alt"></i> {{ drive.location }} &nbsp;{% endif %}
+                                {% if drive.salary_min and drive.salary_max %}
+                                    <i class="bi bi-cash"></i> {{ drive.salary_min }}–{{ drive.salary_max }} LPA
+                                {% endif %}
+                            </p>
+                            {% if drive.required_skills %}
+                            <p class="small mb-2">
+                                <strong>Skills:</strong> {{ drive.required_skills }}
+                            </p>
+                            {% endif %}
+                            <p class="small mb-3">
+                                <strong>Deadline:</strong>
+                                {% if drive.status == 'closed' or drive.deadline < today %}
+                                    <span class="badge bg-danger">Closed — {{ drive.deadline.strftime('%d %b %Y') }}</span>
+                                {% else %}
+                                    <span class="text-danger">{{ drive.deadline.strftime('%d %b %Y') }}</span>
+                                {% endif %}
+                            </p>
+                            <a href="{{ url_for('student.view_drive', drive_id=drive.id) }}" class="btn btn-outline-primary btn-sm">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info">No placement drives available right now.</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

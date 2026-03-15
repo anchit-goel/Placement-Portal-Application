@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar d-none d-md-block">
+            <div class="text-white text-center mb-4 mt-2">
+                <i class="bi bi-person-circle fs-2"></i>
+                <div class="small mt-1">{{ current_user.name }}</div>
+            </div>
+            <a href="{{ url_for('student.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+            <a href="{{ url_for('student.drives') }}"><i class="bi bi-briefcase me-2"></i>Browse Drives</a>
+            <a href="{{ url_for('student.my_applications') }}"><i class="bi bi-file-earmark-text me-2"></i>My Applications</a>
+            <a href="{{ url_for('student.history') }}"><i class="bi bi-clock-history me-2"></i>Placement History</a>
+            <a href="{{ url_for('student.notifications') }}"><i class="bi bi-bell me-2"></i>Notifications</a>
+            <a href="{{ url_for('student.edit_profile') }}" class="active"><i class="bi bi-person-gear me-2"></i>Edit Profile</a>
+        </div>
+
+        <div class="col-md-10 main-content">
+            <h3 class="mb-4">Edit Profile</h3>
+            <div class="card p-4">
+                <form method="POST" action="{{ url_for('student.edit_profile') }}" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ current_user.name }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control" value="{{ current_user.phone or '' }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Branch</label>
+                            <input type="text" name="branch" class="form-control" value="{{ current_user.branch or '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">CGPA</label>
+                            <input type="number" name="cgpa" class="form-control" step="0.01" min="0" max="10" value="{{ current_user.cgpa or '' }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Graduation Year</label>
+                            <input type="number" name="graduation_year" class="form-control" value="{{ current_user.graduation_year or '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Skills</label>
+                            <input type="text" name="skills" class="form-control" value="{{ current_user.skills or '' }}" placeholder="e.g. Python, SQL, Flask">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Upload Resume (PDF)</label>
+                        <input type="file" name="resume" class="form-control" accept=".pdf">
+                        {% if current_user.resume_path %}
+                        <div class="mt-2">
+                            <small class="text-muted">Current resume: </small>
+                            <a href="{{ url_for('static', filename='uploads/' + current_user.resume_path) }}" target="_blank" class="small">
+                                View current resume
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

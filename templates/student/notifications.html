@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar d-none d-md-block">
+            <div class="text-white text-center mb-4 mt-2">
+                <i class="bi bi-person-circle fs-2"></i>
+                <div class="small mt-1">{{ current_user.name }}</div>
+            </div>
+            <a href="{{ url_for('student.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+            <a href="{{ url_for('student.drives') }}"><i class="bi bi-briefcase me-2"></i>Browse Drives</a>
+            <a href="{{ url_for('student.my_applications') }}"><i class="bi bi-file-earmark-text me-2"></i>My Applications</a>
+            <a href="{{ url_for('student.history') }}"><i class="bi bi-clock-history me-2"></i>Placement History</a>
+            <a href="{{ url_for('student.notifications') }}" class="active"><i class="bi bi-bell me-2"></i>Notifications</a>
+            <a href="{{ url_for('student.edit_profile') }}"><i class="bi bi-person-gear me-2"></i>Edit Profile</a>
+        </div>
+
+        <div class="col-md-10 main-content">
+            <h3 class="mb-4">Notifications</h3>
+
+            {% if notifications %}
+                {% for notif in notifications %}
+                <div class="alert alert-{{ 'success' if 'selected' in notif.message.lower() else 'warning' if 'shortlisted' in notif.message.lower() else 'info' if 'interview' in notif.message.lower() else 'danger' if 'rejected' in notif.message.lower() else 'secondary' }}">
+                    <div class="d-flex justify-content-between">
+                        <span><i class="bi bi-bell"></i> {{ notif.message }}</span>
+                        <small class="text-muted ms-3">{{ notif.created_at.strftime('%d %b %Y, %I:%M %p') }}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No notifications yet.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

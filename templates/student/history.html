@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Placement History{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar d-none d-md-block">
+            <div class="text-white text-center mb-4 mt-2">
+                <i class="bi bi-person-circle fs-2"></i>
+                <div class="small mt-1">{{ current_user.name }}</div>
+            </div>
+            <a href="{{ url_for('student.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+            <a href="{{ url_for('student.drives') }}"><i class="bi bi-briefcase me-2"></i>Browse Drives</a>
+            <a href="{{ url_for('student.my_applications') }}"><i class="bi bi-file-earmark-text me-2"></i>My Applications</a>
+            <a href="{{ url_for('student.history') }}" class="active"><i class="bi bi-clock-history me-2"></i>Placement History</a>
+            <a href="{{ url_for('student.notifications') }}"><i class="bi bi-bell me-2"></i>Notifications</a>
+            <a href="{{ url_for('student.edit_profile') }}"><i class="bi bi-person-gear me-2"></i>Edit Profile</a>
+        </div>
+
+        <div class="col-md-10 main-content">
+            <h3 class="mb-4">Placement History</h3>
+
+            {% if placements %}
+            <div class="row g-3">
+                {% for placement in placements %}
+                <div class="col-md-6">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h5 class="card-title text-success">
+                                <i class="bi bi-trophy-fill"></i> {{ placement.drive.job_title }}
+                            </h5>
+                            <h6 class="text-muted">{{ placement.company.name }}</h6>
+                            <hr>
+                            <p class="mb-1">
+                                <strong>Placed On:</strong>
+                                {{ placement.placed_on.strftime('%d %b %Y') }}
+                            </p>
+                            {% if placement.package_offered %}
+                            <p class="mb-0">
+                                <strong>Package:</strong> {{ placement.package_offered }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i>
+                No placement records yet. Keep applying!
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}Manage Students{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar d-none d-md-block">
+            <div class="text-white text-center mb-4 mt-2">
+                <i class="bi bi-shield-fill fs-2"></i>
+                <div class="small mt-1">Admin Panel</div>
+            </div>
+            <a href="{{ url_for('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+            <a href="{{ url_for('admin.companies') }}"><i class="bi bi-building me-2"></i>Companies</a>
+            <a href="{{ url_for('admin.students') }}" class="active"><i class="bi bi-people me-2"></i>Students</a>
+            <a href="{{ url_for('admin.drives') }}"><i class="bi bi-briefcase me-2"></i>Drives</a>
+            <a href="{{ url_for('admin.applications') }}"><i class="bi bi-file-earmark-text me-2"></i>Applications</a>
+            <a href="{{ url_for('admin.placements') }}"><i class="bi bi-trophy me-2"></i>Placements</a>
+        </div>
+
+        <div class="col-md-10 main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Manage Students</h3>
+                <form method="GET" class="d-flex gap-2">
+                    <input type="text" name="search" class="form-control" placeholder="Search by name, ID, or contact information" value="{{ search }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    {% if search %}
+                    <a href="{{ url_for('admin.students') }}" class="btn btn-outline-secondary">Clear</a>
+                    {% endif %}
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Branch</th>
+                                    <th>CGPA</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+                                    <td>{{ student.id }}</td>
+                                    <td>
+                                        <a href="{{ url_for('admin.view_student', student_id=student.id) }}">
+                                            {{ student.name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ student.email }}</td>
+                                    <td>{{ student.branch or '—' }}</td>
+                                    <td>{{ student.cgpa or '—' }}</td>
+                                    <td>
+                                        {% if student.status == 'blacklisted' %}
+                                            <span class="badge bg-dark">Blacklisted</span>
+                                        {% else %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <a href="{{ url_for('admin.edit_student', student_id=student.id) }}" class="btn btn-outline-primary btn-sm">Edit</a>
+                                            {% if student.status == 'active' %}
+                                            <form method="POST" action="{{ url_for('admin.student_action', student_id=student.id) }}">
+                                                <input type="hidden" name="action" value="blacklist">
+                                                <button class="btn btn-dark btn-sm">Blacklist</button>
+                                            </form>
+                                            {% else %}
+                                            <form method="POST" action="{{ url_for('admin.student_action', student_id=student.id) }}">
+                                                <input type="hidden" name="action" value="activate">
+                                                <button class="btn btn-secondary btn-sm">Activate</button>
+                                            </form>
+                                            {% endif %}
+                                            <form method="POST" action="{{ url_for('admin.delete_student', student_id=student.id) }}" onsubmit="return confirm('Delete this student?')">
+                                                <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-3">No students found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
