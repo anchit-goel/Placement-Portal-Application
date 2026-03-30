@@ -1,0 +1,195 @@
+/* ── General ── */
+body {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Navbar ── */
+.navbar {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #1a1f2e 0%, #2d3448 100%);
+    padding-top: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar a {
+    color: #a0a8c0;
+    text-decoration: none;
+    display: block;
+    padding: 11px 20px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+    font-size: 0.92rem;
+}
+
+.sidebar a:hover {
+    color: #ffffff;
+    background-color: rgba(255,255,255,0.08);
+    border-left: 3px solid #4e8cff;
+}
+
+.sidebar a.active {
+    color: #ffffff;
+    background-color: rgba(78,140,255,0.15);
+    border-left: 3px solid #4e8cff;
+}
+
+.sidebar-brand {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+/* ── Cards ── */
+.card {
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+/* ── Stat Cards ── */
+.stat-card {
+    border-radius: 14px;
+    color: white;
+    padding: 22px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-card .fs-2 {
+    font-size: 2.2rem !important;
+    font-weight: 700;
+}
+
+/* ── Main Content ── */
+.main-content {
+    padding: 30px;
+}
+
+/* ── Tables ── */
+.table th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+}
+
+.table td {
+    vertical-align: middle;
+    font-size: 0.92rem;
+}
+
+/* ── Badges ── */
+.badge {
+    font-size: 0.78rem;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* ── Buttons ── */
+.btn {
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #4e8cff;
+    border-color: #4e8cff;
+}
+
+.btn-primary:hover {
+    background-color: #3a7be0;
+    border-color: #3a7be0;
+}
+
+/* ── Forms ── */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    font-size: 0.92rem;
+    padding: 10px 14px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #4e8cff;
+    box-shadow: 0 0 0 3px rgba(78,140,255,0.15);
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 0.88rem;
+    color: #444;
+}
+
+/* ── Auth Pages ── */
+.auth-card {
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+/* ── Drive Cards ── */
+.drive-card {
+    border-radius: 14px;
+    border: 1px solid #e8ecf0;
+    transition: all 0.2s ease;
+}
+
+.drive-card:hover {
+    border-color: #4e8cff;
+    box-shadow: 0 4px 20px rgba(78,140,255,0.15);
+    transform: translateY(-2px);
+}
+
+/* ── Alerts ── */
+.alert {
+    border-radius: 10px;
+    border: none;
+    font-size: 0.92rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 15px;
+    }
+
+    .stat-card {
+        margin-bottom: 10px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .table-responsive {
+        font-size: 0.82rem;
+    }
+}
